@@ -1,0 +1,9 @@
+ID;createdAt;createdBy;coveragecode;coveragename;validity;product_ID
+20466921-7d57-4e76-b14c-e53fd97cov11;2021-04-27;max.mustermann@muster.com;BUB01;Endowment Death;Active;20466921-7d57-4e76-b14c-e53fd97dcb11
+20466921-7d57-4e76-b14c-e53fd97cov12;2021-04-27;max.mustermann@muster.com;BUB02;Endowment Disability;Active;20466921-7d57-4e76-b14c-e53fd97dcb11
+20466921-7d57-4e76-b14c-e53fd97cov13;2021-04-27;max.mustermann@muster.com;BUB03;Endowment Maturity;Active;20466921-7d57-4e76-b14c-e53fd97dcb11
+20466921-7d57-4e76-b14c-e53fd97cov14;2021-04-27;max.mustermann@muster.com;BUB04;Endowment Death Variation;Active;20466921-7d57-4e76-b14c-e53fd97dcb12
+20466921-7d57-4e76-b14c-e53fd97cov15;2021-04-27;max.mustermann@muster.com;BUB05;Endowment Disability Variation;Active;20466921-7d57-4e76-b14c-e53fd97dcb12
+20466921-7d57-4e76-b14c-e53fd97cov16;2021-04-27;max.mustermann@muster.com;BUB06;Endowment Maturity Variation;Active;20466921-7d57-4e76-b14c-e53fd97dcb12
+20466921-7d57-4e76-b14c-e53fd97cov17;2021-04-27;max.mustermann@muster.com;ARI01;Term Life Coverage;Active;20466921-7d57-4e76-b14c-e53fd97dcb13
+20466921-7d57-4e76-b14c-e53fd97cov18;2021-04-27;max.mustermann@muster.com;ARI02;Term Life Variation Coverage;Active;20466921-7d57-4e76-b14c-e53fd97dcb14

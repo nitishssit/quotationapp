@@ -1,0 +1,23 @@
+{
+    "name": "quotationapp",
+    "version": "1.0.0",
+    "description": "A simple CAP project.",
+    "repository": "<Add your repository here>",
+    "license": "UNLICENSED",
+    "private": true,
+    "dependencies": {
+        "@sap/cds": "^6",
+        "express": "^4"
+    },
+    "devDependencies": {
+        "@sap/ux-specification": "latest",
+        "sqlite3": "^5.0.4"
+    },
+    "scripts": {
+        "start": "cds run",
+        "watch-quotation": "cds watch --open quotation/webapp/index.html?sap-ui-xx-viewCache=false"
+    },
+    "sapux": [
+        "app/quotation"
+    ]
+}

@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="QuotationService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Quotes" EntityType="QuotationService.Quotes">
+                    <NavigationPropertyBinding Path="product" Target="Products"/>
+                    <NavigationPropertyBinding Path="quotedetails" Target="QuoteDetails"/>
+                    <NavigationPropertyBinding Path="SiblingEntity" Target="Quotes"/>
+                </EntitySet>
+                <EntitySet Name="Products" EntityType="QuotationService.Products">
+                    <NavigationPropertyBinding Path="quotes" Target="Quotes"/>
+                    <NavigationPropertyBinding Path="SiblingEntity" Target="Products"/>
+                </EntitySet>
+                <EntitySet Name="Coverages" EntityType="QuotationService.Coverages">
+                    <NavigationPropertyBinding Path="product" Target="Products"/>
+                </EntitySet>
+                <EntitySet Name="QuoteDetails" EntityType="QuotationService.QuoteDetails">
+                    <NavigationPropertyBinding Path="quote" Target="Quotes"/>
+                    <NavigationPropertyBinding Path="coverages" Target="Coverages"/>
+                    <NavigationPropertyBinding Path="product" Target="Products"/>
+                </EntitySet>
+            </EntityContainer>
+            <EntityType Name="Quotes">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                    <PropertyRef Name="IsActiveEntity"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="polhldrname" Type="Edm.String" MaxLength="40"/>
+                <Property Name="status" Type="Edm.String" MaxLength="20"/>
+                <Property Name="polhldraddress" Type="Edm.String" MaxLength="60"/>
+                <Property Name="payfrq" Type="Edm.String" MaxLength="20"/>
+                <Property Name="paymethod" Type="Edm.String" MaxLength="30"/>
+                <Property Name="suminsured" Type="Edm.Int32"/>
+                <Property Name="duration" Type="Edm.Int32"/>
+                <Property Name="annpremium" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="frqpremium" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="startdate" Type="Edm.Date"/>
+                <Property Name="criticality" Type="Edm.Int32"/>
+                <NavigationProperty Name="product" Type="QuotationService.Products" Partner="quotes">
+                    <ReferentialConstraint Property="product_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="product_ID" Type="Edm.Guid"/>
+                <NavigationProperty Name="quotedetails" Type="Collection(QuotationService.QuoteDetails)" Partner="quote"/>
+                <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+                <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <NavigationProperty Name="DraftAdministrativeData" Type="QuotationService.DraftAdministrativeData" ContainsTarget="true"/>
+                <NavigationProperty Name="SiblingEntity" Type="QuotationService.Quotes"/>
+            </EntityType>
+            <EntityType Name="Products">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                    <PropertyRef Name="IsActiveEntity"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="productcode" Type="Edm.String" MaxLength="10"/>
+                <Property Name="productname" Type="Edm.String" MaxLength="40"/>
+                <Property Name="validity" Type="Edm.String"/>
+                <NavigationProperty Name="quotes" Type="Collection(QuotationService.Quotes)" Partner="product"/>
+                <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+                <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <NavigationProperty Name="DraftAdministrativeData" Type="QuotationService.DraftAdministrativeData" ContainsTarget="true"/>
+                <NavigationProperty Name="SiblingEntity" Type="QuotationService.Products"/>
+            </EntityType>
+            <EntityType Name="Coverages">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="coveragecode" Type="Edm.String" MaxLength="10"/>
+                <Property Name="coveragename" Type="Edm.String" MaxLength="40"/>
+                <Property Name="validity" Type="Edm.String"/>
+                <NavigationProperty Name="product" Type="QuotationService.Products">
+                    <ReferentialConstraint Property="product_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="product_ID" Type="Edm.Guid"/>
+            </EntityType>
+            <EntityType Name="QuoteDetails">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <NavigationProperty Name="quote" Type="QuotationService.Quotes" Partner="quotedetails">
+                    <ReferentialConstraint Property="quote_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="quote_ID" Type="Edm.Guid"/>
+                <NavigationProperty Name="coverages" Type="QuotationService.Coverages">
+                    <ReferentialConstraint Property="coverages_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="coverages_ID" Type="Edm.Guid"/>
+                <NavigationProperty Name="product" Type="QuotationService.Products">
+                    <ReferentialConstraint Property="product_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="product_ID" Type="Edm.Guid"/>
+                <Property Name="coveragecode" Type="Edm.String" MaxLength="10"/>
+                <Property Name="coveragename" Type="Edm.String" MaxLength="40"/>
+                <Property Name="startdate" Type="Edm.Date"/>
+                <Property Name="enddate" Type="Edm.Date"/>
+                <Property Name="insuredobject" Type="Edm.String"/>
+                <Property Name="suminsured" Type="Edm.Int32"/>
+                <Property Name="annpremium" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="frqpremium" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="criticality" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="DraftAdministrativeData">
+                <Key>
+                    <PropertyRef Name="DraftUUID"/>
+                </Key>
+                <Property Name="DraftUUID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="CreatedByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="DraftIsCreatedByMe" Type="Edm.Boolean"/>
+                <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="LastChangedByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="InProcessByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean"/>
+            </EntityType>
+            <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="QuotationService.Quotes"/>
+                <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+                <ReturnType Type="QuotationService.Quotes"/>
+            </Action>
+            <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="QuotationService.Products"/>
+                <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+                <ReturnType Type="QuotationService.Products"/>
+            </Action>
+            <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="QuotationService.Quotes"/>
+                <ReturnType Type="QuotationService.Quotes"/>
+            </Action>
+            <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="QuotationService.Products"/>
+                <ReturnType Type="QuotationService.Products"/>
+            </Action>
+            <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="QuotationService.Quotes"/>
+                <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+                <ReturnType Type="QuotationService.Quotes"/>
+            </Action>
+            <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="QuotationService.Products"/>
+                <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+                <ReturnType Type="QuotationService.Products"/>
+            </Action>
+            <Annotations Target="QuotationService.Quotes">
+                <Annotation Term="UI.HeaderInfo">
+                    <Record Type="UI.HeaderInfoType">
+                        <PropertyValue Property="TypeName" String="Quote"/>
+                        <PropertyValue Property="TypeNamePlural" String="Quotes"/>
+                        <PropertyValue Property="Title">
+                            <Record Type="UI.DataField">
+                                <PropertyValue Property="Value" Path="polhldrname"/>
+                            </Record>
+                        </PropertyValue>
+                        <PropertyValue Property="Description">
+                            <Record Type="UI.DataField">
+                                <PropertyValue Property="Value" Path="product_ID"/>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.HeaderFacets">
+                    <Collection>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Target" AnnotationPath="@UI.DataPoint#Status"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="polhldrname"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="polhldraddress"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="status"/>
+                            <PropertyValue Property="Criticality" Path="criticality"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="product_ID"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="startdate"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.Facets">
+                    <Collection>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Label" String="Quote Details"/>
+                            <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#QuoteDetails"/>
+                        </Record>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Label" String="Coverage Details"/>
+                            <PropertyValue Property="Target" AnnotationPath="quotedetails/@UI.LineItem"/>
+                        </Record>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Label" String="Premium Details"/>
+                            <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#PremiumDetails"/>
+                            <Annotation Term="UI.Hidden" Path="IsActiveEntity"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.DataPoint" Qualifier="Status">
+                    <Record Type="UI.DataPointType">
+                        <PropertyValue Property="Value" Path="status"/>
+                        <PropertyValue Property="Label" String="Status"/>
+                        <PropertyValue Property="Criticality" Path="criticality"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.FieldGroup" Qualifier="QuoteDetails">
+                    <Record Type="UI.FieldGroupType">
+                        <PropertyValue Property="Data">
+                            <Collection>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="polhldraddress"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="startdate"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="duration"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="payfrq"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="paymethod"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="suminsured"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="annpremium"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="frqpremium"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.FieldGroup" Qualifier="ProductDetails">
+                    <Record Type="UI.FieldGroupType">
+                        <PropertyValue Property="Data">
+                            <Collection>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="suminsured"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="annpremium"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="frqpremium"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.FieldGroup" Qualifier="PremiumDetails">
+                    <Record Type="UI.FieldGroupType">
+                        <PropertyValue Property="Data">
+                            <Collection>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="polhldraddress"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="payfrq"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="paymethod"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="suminsured"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="duration"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="annpremium"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="frqpremium"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="QuotationService.EntityContainer/Quotes">
+                <Annotation Term="Common.DraftRoot">
+                    <Record Type="Common.DraftRootType">
+                        <PropertyValue Property="ActivationAction" String="QuotationService.draftActivate"/>
+                        <PropertyValue Property="EditAction" String="QuotationService.draftEdit"/>
+                        <PropertyValue Property="PreparationAction" String="QuotationService.draftPrepare"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="QuotationService.Quotes/createdAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+                </Annotations>
+                <Annotations Target="QuotationService.Quotes/createdBy">
+                    <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                    <Annotation Term="Core.Immutable" Bool="true"/>
+                    <Annotation Term="Core.Computed" Bool="true"/>
+                    <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+                        </Annotations>
+                        <Annotations Target="QuotationService.Quotes/modifiedAt">
+                            <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                            <Annotation Term="Core.Computed" Bool="true"/>
+                            <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+                            </Annotations>
+                            <Annotations Target="QuotationService.Quotes/modifiedBy">
+                                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                <Annotation Term="Core.Computed" Bool="true"/>
+                                <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                    <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+                                    </Annotations>
+                                    <Annotations Target="QuotationService.Quotes/ID">
+                                        <Annotation Term="Core.Computed" Bool="true"/>
+                                    </Annotations>
+                                    <Annotations Target="QuotationService.Quotes/polhldrname">
+                                        <Annotation Term="Common.Label" String="Policyholder Name"/>
+                                    </Annotations>
+                                    <Annotations Target="QuotationService.Quotes/status">
+                                        <Annotation Term="Common.Label" String="Status"/>
+                                    </Annotations>
+                                    <Annotations Target="QuotationService.Quotes/polhldraddress">
+                                        <Annotation Term="Common.Label" String="Policyholder Address"/>
+                                    </Annotations>
+                                    <Annotations Target="QuotationService.Quotes/payfrq">
+                                        <Annotation Term="Common.Label" String="Payment Frequency"/>
+                                    </Annotations>
+                                    <Annotations Target="QuotationService.Quotes/paymethod">
+                                        <Annotation Term="Common.Label" String="Payment Method"/>
+                                    </Annotations>
+                                    <Annotations Target="QuotationService.Quotes/suminsured">
+                                        <Annotation Term="Common.Label" String="Sum Insured"/>
+                                    </Annotations>
+                                    <Annotations Target="QuotationService.Quotes/duration">
+                                        <Annotation Term="Common.Label" String="Cover Duration (years)"/>
+                                    </Annotations>
+                                    <Annotations Target="QuotationService.Quotes/annpremium">
+                                        <Annotation Term="Common.Label" String="Annual Premium"/>
+                                    </Annotations>
+                                    <Annotations Target="QuotationService.Quotes/frqpremium">
+                                        <Annotation Term="Common.Label" String="Payment Frequency Premium"/>
+                                    </Annotations>
+                                    <Annotations Target="QuotationService.Quotes/startdate">
+                                        <Annotation Term="Common.Label" String="Start Date"/>
+                                    </Annotations>
+                                    <Annotations Target="QuotationService.Quotes/product">
+                                        <Annotation Term="Common.Label" String="Product"/>
+                                    </Annotations>
+                                    <Annotations Target="QuotationService.Quotes/product_ID">
+                                        <Annotation Term="Common.Text" Path="product/productname">
+                                            <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly"/>
+                                        </Annotation>
+                                        <Annotation Term="Common.ValueList">
+                                            <Record Type="Common.ValueListType">
+                                                <PropertyValue Property="Label" String="Products"/>
+                                                <PropertyValue Property="CollectionPath" String="Products"/>
+                                                <PropertyValue Property="Parameters">
+                                                    <Collection>
+                                                        <Record Type="Common.ValueListParameterInOut">
+                                                            <PropertyValue Property="LocalDataProperty" PropertyPath="product_ID"/>
+                                                            <PropertyValue Property="ValueListProperty" String="ID"/>
+                                                        </Record>
+                                                        <Record Type="Common.ValueListParameterDisplayOnly">
+                                                            <PropertyValue Property="ValueListProperty" String="productcode"/>
+                                                        </Record>
+                                                        <Record Type="Common.ValueListParameterDisplayOnly">
+                                                            <PropertyValue Property="ValueListProperty" String="productname"/>
+                                                        </Record>
+                                                    </Collection>
+                                                </PropertyValue>
+                                            </Record>
+                                        </Annotation>
+                                        <Annotation Term="Common.Label" String="Product"/>
+                                    </Annotations>
+                                    <Annotations Target="QuotationService.Quotes/IsActiveEntity">
+                                        <Annotation Term="UI.Hidden" Bool="true"/>
+                                    </Annotations>
+                                    <Annotations Target="QuotationService.Quotes/HasActiveEntity">
+                                        <Annotation Term="UI.Hidden" Bool="true"/>
+                                    </Annotations>
+                                    <Annotations Target="QuotationService.Quotes/HasDraftEntity">
+                                        <Annotation Term="UI.Hidden" Bool="true"/>
+                                    </Annotations>
+                                    <Annotations Target="QuotationService.Quotes/DraftAdministrativeData">
+                                        <Annotation Term="UI.Hidden" Bool="true"/>
+                                    </Annotations>
+                                    <Annotations Target="QuotationService.EntityContainer/Products">
+                                        <Annotation Term="Common.DraftRoot">
+                                            <Record Type="Common.DraftRootType">
+                                                <PropertyValue Property="ActivationAction" String="QuotationService.draftActivate"/>
+                                                <PropertyValue Property="EditAction" String="QuotationService.draftEdit"/>
+                                                <PropertyValue Property="PreparationAction" String="QuotationService.draftPrepare"/>
+                                            </Record>
+                                        </Annotation>
+                                    </Annotations>
+                                    <Annotations Target="QuotationService.Products/createdAt">
+                                        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                        <Annotation Term="Core.Immutable" Bool="true"/>
+                                        <Annotation Term="Core.Computed" Bool="true"/>
+                                        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+                                        </Annotations>
+                                        <Annotations Target="QuotationService.Products/createdBy">
+                                            <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                            <Annotation Term="Core.Immutable" Bool="true"/>
+                                            <Annotation Term="Core.Computed" Bool="true"/>
+                                            <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+                                                </Annotations>
+                                                <Annotations Target="QuotationService.Products/modifiedAt">
+                                                    <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                    <Annotation Term="Core.Computed" Bool="true"/>
+                                                    <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+                                                    </Annotations>
+                                                    <Annotations Target="QuotationService.Products/modifiedBy">
+                                                        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                        <Annotation Term="Core.Computed" Bool="true"/>
+                                                        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                            <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+                                                            </Annotations>
+                                                            <Annotations Target="QuotationService.Products/ID">
+                                                                <Annotation Term="UI.Hidden" Bool="true"/>
+                                                                <Annotation Term="Common.Text" Path="productname"/>
+                                                                <Annotation Term="Core.Computed" Bool="true"/>
+                                                            </Annotations>
+                                                            <Annotations Target="QuotationService.Products/productcode">
+                                                                <Annotation Term="Common.Label" String="Product Code"/>
+                                                            </Annotations>
+                                                            <Annotations Target="QuotationService.Products/productname">
+                                                                <Annotation Term="Common.Label" String="Product Name"/>
+                                                            </Annotations>
+                                                            <Annotations Target="QuotationService.Products/validity">
+                                                                <Annotation Term="Common.Label" String="Validity"/>
+                                                            </Annotations>
+                                                            <Annotations Target="QuotationService.Products/quotes">
+                                                                <Annotation Term="Common.Label" String="Quotes"/>
+                                                            </Annotations>
+                                                            <Annotations Target="QuotationService.Products/IsActiveEntity">
+                                                                <Annotation Term="UI.Hidden" Bool="true"/>
+                                                            </Annotations>
+                                                            <Annotations Target="QuotationService.Products/HasActiveEntity">
+                                                                <Annotation Term="UI.Hidden" Bool="true"/>
+                                                            </Annotations>
+                                                            <Annotations Target="QuotationService.Products/HasDraftEntity">
+                                                                <Annotation Term="UI.Hidden" Bool="true"/>
+                                                            </Annotations>
+                                                            <Annotations Target="QuotationService.Products/DraftAdministrativeData">
+                                                                <Annotation Term="UI.Hidden" Bool="true"/>
+                                                            </Annotations>
+                                                            <Annotations Target="QuotationService.Coverages/createdAt">
+                                                                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                <Annotation Term="Core.Immutable" Bool="true"/>
+                                                                <Annotation Term="Core.Computed" Bool="true"/>
+                                                                <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+                                                                </Annotations>
+                                                                <Annotations Target="QuotationService.Coverages/createdBy">
+                                                                    <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                    <Annotation Term="Core.Immutable" Bool="true"/>
+                                                                    <Annotation Term="Core.Computed" Bool="true"/>
+                                                                    <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+                                                                        </Annotations>
+                                                                        <Annotations Target="QuotationService.Coverages/modifiedAt">
+                                                                            <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                            <Annotation Term="Core.Computed" Bool="true"/>
+                                                                            <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+                                                                            </Annotations>
+                                                                            <Annotations Target="QuotationService.Coverages/modifiedBy">
+                                                                                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                                    <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+                                                                                    </Annotations>
+                                                                                    <Annotations Target="QuotationService.Coverages/ID">
+                                                                                        <Annotation Term="UI.Hidden" Bool="true"/>
+                                                                                        <Annotation Term="Common.Text" Path="coveragename"/>
+                                                                                        <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                    </Annotations>
+                                                                                    <Annotations Target="QuotationService.Coverages/coveragecode">
+                                                                                        <Annotation Term="Common.Label" String="Coverage Code"/>
+                                                                                    </Annotations>
+                                                                                    <Annotations Target="QuotationService.Coverages/coveragename">
+                                                                                        <Annotation Term="Common.Label" String="Coverage Name"/>
+                                                                                    </Annotations>
+                                                                                    <Annotations Target="QuotationService.Coverages/validity">
+                                                                                        <Annotation Term="Common.Label" String="Validity"/>
+                                                                                    </Annotations>
+                                                                                    <Annotations Target="QuotationService.Coverages/product">
+                                                                                        <Annotation Term="Common.Label" String="Product"/>
+                                                                                    </Annotations>
+                                                                                    <Annotations Target="QuotationService.Coverages/product_ID">
+                                                                                        <Annotation Term="Common.Label" String="Product"/>
+                                                                                    </Annotations>
+                                                                                    <Annotations Target="QuotationService.QuoteDetails">
+                                                                                        <Annotation Term="UI.LineItem">
+                                                                                            <Collection>
+                                                                                                <Record Type="UI.DataField">
+                                                                                                    <PropertyValue Property="Value" Path="coverages_ID"/>
+                                                                                                </Record>
+                                                                                                <Record Type="UI.DataField">
+                                                                                                    <PropertyValue Property="Value" Path="startdate"/>
+                                                                                                </Record>
+                                                                                                <Record Type="UI.DataField">
+                                                                                                    <PropertyValue Property="Value" Path="enddate"/>
+                                                                                                </Record>
+                                                                                                <Record Type="UI.DataField">
+                                                                                                    <PropertyValue Property="Value" Path="insuredobject"/>
+                                                                                                </Record>
+                                                                                                <Record Type="UI.DataField">
+                                                                                                    <PropertyValue Property="Value" Path="suminsured"/>
+                                                                                                </Record>
+                                                                                                <Record Type="UI.DataField">
+                                                                                                    <PropertyValue Property="Value" Path="annpremium"/>
+                                                                                                </Record>
+                                                                                                <Record Type="UI.DataField">
+                                                                                                    <PropertyValue Property="Value" Path="frqpremium"/>
+                                                                                                </Record>
+                                                                                            </Collection>
+                                                                                        </Annotation>
+                                                                                    </Annotations>
+                                                                                    <Annotations Target="QuotationService.QuoteDetails/createdAt">
+                                                                                        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                        <Annotation Term="Core.Immutable" Bool="true"/>
+                                                                                        <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+                                                                                        </Annotations>
+                                                                                        <Annotations Target="QuotationService.QuoteDetails/createdBy">
+                                                                                            <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                            <Annotation Term="Core.Immutable" Bool="true"/>
+                                                                                            <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                            <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                                                <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+                                                                                                </Annotations>
+                                                                                                <Annotations Target="QuotationService.QuoteDetails/modifiedAt">
+                                                                                                    <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                                    <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                    <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+                                                                                                    </Annotations>
+                                                                                                    <Annotations Target="QuotationService.QuoteDetails/modifiedBy">
+                                                                                                        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                                        <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                                                            <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+                                                                                                            </Annotations>
+                                                                                                            <Annotations Target="QuotationService.QuoteDetails/ID">
+                                                                                                                <Annotation Term="UI.Hidden" Bool="true"/>
+                                                                                                                <Annotation Term="Common.Text" Path="coveragename"/>
+                                                                                                                <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                            </Annotations>
+                                                                                                            <Annotations Target="QuotationService.QuoteDetails/coverages">
+                                                                                                                <Annotation Term="Common.Label" String="Coverage"/>
+                                                                                                            </Annotations>
+                                                                                                            <Annotations Target="QuotationService.QuoteDetails/coverages_ID">
+                                                                                                                <Annotation Term="Common.Text" Path="coverages/coveragename">
+                                                                                                                    <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly"/>
+                                                                                                                </Annotation>
+                                                                                                                <Annotation Term="Common.ValueList">
+                                                                                                                    <Record Type="Common.ValueListType">
+                                                                                                                        <PropertyValue Property="Label" String="Coverages"/>
+                                                                                                                        <PropertyValue Property="CollectionPath" String="Coverages"/>
+                                                                                                                        <PropertyValue Property="Parameters">
+                                                                                                                            <Collection>
+                                                                                                                                <Record Type="Common.ValueListParameterInOut">
+                                                                                                                                    <PropertyValue Property="LocalDataProperty" PropertyPath="coverage_ID"/>
+                                                                                                                                    <PropertyValue Property="ValueListProperty" String="ID"/>
+                                                                                                                                </Record>
+                                                                                                                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                                                                                                                    <PropertyValue Property="ValueListProperty" String="coveragecode"/>
+                                                                                                                                </Record>
+                                                                                                                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                                                                                                                    <PropertyValue Property="ValueListProperty" String="coveragename"/>
+                                                                                                                                </Record>
+                                                                                                                            </Collection>
+                                                                                                                        </PropertyValue>
+                                                                                                                    </Record>
+                                                                                                                </Annotation>
+                                                                                                                <Annotation Term="Common.Label" String="Coverage"/>
+                                                                                                            </Annotations>
+                                                                                                            <Annotations Target="QuotationService.QuoteDetails/coveragecode">
+                                                                                                                <Annotation Term="Common.Label" String="Coverage Code"/>
+                                                                                                            </Annotations>
+                                                                                                            <Annotations Target="QuotationService.QuoteDetails/coveragename">
+                                                                                                                <Annotation Term="Common.Label" String="Coverage Name"/>
+                                                                                                            </Annotations>
+                                                                                                            <Annotations Target="QuotationService.QuoteDetails/startdate">
+                                                                                                                <Annotation Term="Common.Label" String="Start Date"/>
+                                                                                                            </Annotations>
+                                                                                                            <Annotations Target="QuotationService.QuoteDetails/enddate">
+                                                                                                                <Annotation Term="Common.Label" String="End Date"/>
+                                                                                                            </Annotations>
+                                                                                                            <Annotations Target="QuotationService.QuoteDetails/insuredobject">
+                                                                                                                <Annotation Term="Common.Label" String="Insured"/>
+                                                                                                            </Annotations>
+                                                                                                            <Annotations Target="QuotationService.QuoteDetails/suminsured">
+                                                                                                                <Annotation Term="Common.Label" String="Sum Insured"/>
+                                                                                                            </Annotations>
+                                                                                                            <Annotations Target="QuotationService.QuoteDetails/annpremium">
+                                                                                                                <Annotation Term="Common.Label" String="Annual Premium"/>
+                                                                                                            </Annotations>
+                                                                                                            <Annotations Target="QuotationService.QuoteDetails/frqpremium">
+                                                                                                                <Annotation Term="Common.Label" String="Payment Frequency Premium"/>
+                                                                                                            </Annotations>
+                                                                                                            <Annotations Target="QuotationService.DraftAdministrativeData">
+                                                                                                                <Annotation Term="Common.Label" String="{i18n>Draft_DraftAdministrativeData}"/>
+                                                                                                                </Annotations>
+                                                                                                                <Annotations Target="QuotationService.DraftAdministrativeData/DraftUUID">
+                                                                                                                    <Annotation Term="UI.Hidden" Bool="true"/>
+                                                                                                                    <Annotation Term="Common.Label" String="{i18n>Draft_DraftUUID}"/>
+                                                                                                                    </Annotations>
+                                                                                                                    <Annotations Target="QuotationService.DraftAdministrativeData/CreationDateTime">
+                                                                                                                        <Annotation Term="Common.Label" String="{i18n>Draft_CreationDateTime}"/>
+                                                                                                                        </Annotations>
+                                                                                                                        <Annotations Target="QuotationService.DraftAdministrativeData/CreatedByUser">
+                                                                                                                            <Annotation Term="Common.Label" String="{i18n>Draft_CreatedByUser}"/>
+                                                                                                                            </Annotations>
+                                                                                                                            <Annotations Target="QuotationService.DraftAdministrativeData/DraftIsCreatedByMe">
+                                                                                                                                <Annotation Term="UI.Hidden" Bool="true"/>
+                                                                                                                                <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsCreatedByMe}"/>
+                                                                                                                                </Annotations>
+                                                                                                                                <Annotations Target="QuotationService.DraftAdministrativeData/LastChangeDateTime">
+                                                                                                                                    <Annotation Term="Common.Label" String="{i18n>Draft_LastChangeDateTime}"/>
+                                                                                                                                    </Annotations>
+                                                                                                                                    <Annotations Target="QuotationService.DraftAdministrativeData/LastChangedByUser">
+                                                                                                                                        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangedByUser}"/>
+                                                                                                                                        </Annotations>
+                                                                                                                                        <Annotations Target="QuotationService.DraftAdministrativeData/InProcessByUser">
+                                                                                                                                            <Annotation Term="Common.Label" String="{i18n>Draft_InProcessByUser}"/>
+                                                                                                                                            </Annotations>
+                                                                                                                                            <Annotations Target="QuotationService.DraftAdministrativeData/DraftIsProcessedByMe">
+                                                                                                                                                <Annotation Term="UI.Hidden" Bool="true"/>
+                                                                                                                                                <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsProcessedByMe}"/>
+                                                                                                                                                </Annotations>
+                                                                                                                                            </Schema>
+                                                                                                                                        </edmx:DataServices>
+                                                                                                                                    </edmx:Edmx>

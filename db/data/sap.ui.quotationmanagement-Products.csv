@@ -1,0 +1,5 @@
+ID;createdAt;createdBy;productcode;productname;validity
+20466921-7d57-4e76-b14c-e53fd97dcb11;2021-04-27;max.mustermann@muster.com;KAP01;Endowment;Active
+20466921-7d57-4e76-b14c-e53fd97dcb12;2021-04-27;max.mustermann@muster.com;KAP02;Endowment Variation;Active
+20466921-7d57-4e76-b14c-e53fd97dcb13;2021-04-27;max.mustermann@muster.com;ARI01;Term Life;Active
+20466921-7d57-4e76-b14c-e53fd97dcb14;2021-04-27;max.mustermann@muster.com;ARI02;Term Life Variation;Active
