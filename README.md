@@ -1,6 +1,6 @@
-# Getting Started
+# Welcome to the CAP Insurance Quotation App.
 
-Welcome to your new project.
+This is a sample app for the insurance quotation scenario, built with [SAP Cloud Application Programming Model (CAP)](https://cap.cloud.sap/docs/) and [SAP Fiori Elements](https://experience.sap.com/fiori-design-web/smart-templates/).
 
 It contains these folders and files, following our recommended project layout:
 
@@ -13,11 +13,10 @@ File or Folder | Purpose
 `readme.md` | this getting started guide
 
 
-## Next Steps
-
-- Open a new terminal and run `cds watch` 
-- (in VS Code simply choose _**Terminal** > Run Task > cds watch_)
-- Start adding content, for example, a [db/schema.cds](db/schema.cds).
+## Run locally
+### Build and Run - Node.js Backend
+- clone the repository
+- In the root folder of your project, run `npm install` and `cds watch` 
 
 
 ## Learn More
