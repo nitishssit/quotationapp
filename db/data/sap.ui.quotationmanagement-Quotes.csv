@@ -1,4 +1,4 @@
 ID;createdAt;createdBy;polhldrname;status;polhldraddress;product_ID;payfrq;paymethod;suminsured;duration;annpremium;frqpremium;startdate
-20466922-7d57-4e76-b14c-e53fd97dcb11;2023-03-20;max.mustermann@muster.com;Laveen Lalwani;Approved;Unit 2401 Docklands Drive VIC 3030;20466921-7d57-4e76-b14c-e53fd97dcb11;Monthly;Bank Transfer;100000;15;6000;500;2023-03-20
+20466922-7d57-4e76-b14c-e53fd97dcb11;2023-03-20;max.mustermann@muster.com;Laveen Lalwani;Approved;Unit 2401 Docklands Drive VIC 3030;20466921-7d57-4e76-b14c-e53fd97dcb11;Monthly;Bank Transfer;500000;15;36000;3000;2023-03-20
 20466922-7d57-4e76-b14c-e53fd97dcb12;2023-03-20;max.mustermann@muster.com;John Doe;Quoted;Unit 2706 Elizabeth Street VIC 3000;20466921-7d57-4e76-b14c-e53fd97dcb12;Monthly;Bank Transfer;200000;20;12000;1000;2023-03-21
 20466922-7d57-4e76-b14c-e53fd97dcb13;2023-03-20;max.mustermann@muster.com;Max Muster;Quoting;Unit 100 King Street Berlin 23352;20466921-7d57-4e76-b14c-e53fd97dcb13;Annual;Bank Transfer;50000;15;3000;3000;2023-03-22
