@@ -1,19 +1,20 @@
 using QuotationService from './quotation-service';
 
 annotate QuotationService.Quotes with {
-	polhldrname       @title: 'Policyholder Name';
-	polhldraddress       @title: 'Policyholder Address';
-	status        @title: 'Status';
-	product        @title: 'Product';
-	startdate      @title: 'Start Date';
-	payfrq		@title: 'Payment Frequency';
+	polhldrname     @title: 'Policyholder Name';
+	polhldraddress  @title: 'Policyholder Address';
+	status          @title: 'Status';
+	product         @title: 'Product';
+	startdate       @title: 'Start Date';
+	payfrq		    @title: 'Payment Frequency';
 	paymethod		@title: 'Payment Method';
 	suminsured		@title: 'Sum Insured';
 	duration		@title: 'Cover Duration (years)';
 	annpremium		@title: 'Annual Premium';
 	frqpremium		@title: 'Payment Frequency Premium';
+	insuredDob     @title: 'Date of birth';
+    insuredAge     @title: 'Age';
 }
-
 annotate QuotationService.QuoteDetails with {
 	ID @(
 		UI.Hidden,
@@ -23,14 +24,14 @@ annotate QuotationService.QuoteDetails with {
 	);
 	coveragecode  @title: 'Coverage Code';
 	coveragename  @title: 'Coverage Name';
-	startdate      @title: 'Start Date';
-	enddate      @title: 'End Date';
+	startdate     @title: 'Start Date';
+	enddate       @title: 'End Date';
 	insuredobject @title : 'Insured';
-	suminsured		@title: 'Sum Insured';
-	annpremium		@title: 'Annual Premium';
-	frqpremium		@title: 'Payment Frequency Premium';
-	coverages  @title: 'Coverage';
-	product  @title: 'Product';
+	suminsured	  @title: 'Sum Insured';
+	annpremium	  @title: 'Annual Premium';
+	frqpremium	  @title: 'Payment Frequency Premium';
+	coverages  	  @title: 'Coverage';
+	product  	  @title: 'Product';
 }
 
 annotate QuotationService.Products with {
@@ -57,6 +58,12 @@ annotate QuotationService.Coverages with {
 	coveragename  @title: 'Coverage Name';
 	validity     @title: 'Validity';
 	product       @title: 'Product';
+}
+
+annotate QuotationService.PremiumFrequency with {
+    
+    Frequency @title : 'Payment Frequency';
+
 }
 
 annotate QuotationService.Quotes with @(
@@ -97,7 +104,7 @@ annotate QuotationService.Quotes with @(
 		],
 		DataPoint#Status : {
 			Value : status,
-			Label : 'Status',
+			//Label : 'Status',
 			Criticality : criticality
 		},
 		FieldGroup#QuoteDetails: {
@@ -105,11 +112,13 @@ annotate QuotationService.Quotes with @(
 				{Value: polhldraddress},
 				{Value: startdate},
 				{Value: duration},
-				{Value: payfrq},
+				{Value: payfrq_ID},
 				{Value: paymethod},
 				{Value: suminsured},
 				{Value: annpremium},
-				{Value: frqpremium}
+				{Value: frqpremium},
+				{Value : insuredDob},
+      			{Value : insuredAge}
 			]
 		},
 		FieldGroup#ProductDetails: {
@@ -122,7 +131,7 @@ annotate QuotationService.Quotes with @(
 		FieldGroup#PremiumDetails: {
 			Data: [
 				{Value: polhldraddress},
-				{Value: payfrq},
+				{Value: payfrq_ID},
 				{Value: paymethod},
 				{Value: suminsured},
 				{Value: duration},
@@ -214,4 +223,27 @@ annotate QuotationService.QuoteDetails with {
 	);
 }
 
-
+//Frequency Help drop down changes - BEGIN
+annotate QuotationService.Quotes with {
+    payfrq @(Common: {
+        //show name, not id for coverage in the context of quotedetails
+        Text           : payfrq.Frequency,
+        TextArrangement: #TextOnly,
+        ValueList      : {
+            Label         : 'Frequency',
+            CollectionPath: 'PremiumFrequency',
+            Parameters    : [
+                {
+                    $Type            : 'Common.ValueListParameterInOut',
+                    LocalDataProperty: payfrq_ID,
+                    ValueListProperty: 'ID'
+                },
+                {
+                    $Type            : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty: 'Frequency'
+                }
+            ]
+        }
+    });
+}
+//Frequency Help drop down changes - END

@@ -6,7 +6,7 @@ using { managed } from '@sap/cds/common';
     polhldrname       : String(40);
     status        : String(20);
     polhldraddress       : String (60);
-    payfrq      : String (20);
+    payfrq      : Association to PremiumFrequency; 
     paymethod : String (30);
     suminsured : Integer;
     duration : Integer;
@@ -17,6 +17,9 @@ using { managed } from '@sap/cds/common';
     product        : Association to Products;
    // quotedetails : Association to many QuoteDetails on quotedetails.quote = $self;
     quotedetails : Composition of many QuoteDetails on quotedetails.quote = $self;
+    insuredDob     : Date;
+    insuredAge     : Integer;    
+
   }
 
   entity Products : managed {
@@ -50,4 +53,10 @@ entity QuoteDetails : managed {
     annpremium : Decimal;
     frqpremium : Decimal;
     criticality : Integer;
+  }
+
+    entity PremiumFrequency:managed{
+    key ID  :  String;//UUID @(Core.Computed: true);
+    Frequency   : String(20);
+    //Frequency : Composition of  many Quotes on Frequency.payfrq= $self; //Association to many Quotes on freqDescr.payfrq = $self;
   }
