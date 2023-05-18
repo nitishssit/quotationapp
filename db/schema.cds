@@ -3,9 +3,7 @@ using { managed } from '@sap/cds/common';
 
   entity Quotes : managed {
     key ID      : UUID  @(Core.Computed : true);
-    polhldrname       : String(40);
     status        : String(20);
-    polhldraddress       : String (60);
     payfrq      : Association to PremiumFrequency; 
     paymethod : String (30);
     suminsured : Integer;
@@ -15,11 +13,21 @@ using { managed } from '@sap/cds/common';
     startdate : Date;
     criticality : Integer;
     product        : Association to Products;
+    phName       : String(40);
+    phAddress       : String (60);
+    phDOB     : Date;
+    phAge     : Integer;
+    phOccClass: String(40);
+    phGender  : String(10);
+    insName       : String(40);
+    insAddress       : String (60);
+    insDOB     : Date;
+    insAge     : Integer;
+    insOccClass: String(40);
+    insGender  : String(10);
    // quotedetails : Association to many QuoteDetails on quotedetails.quote = $self;
     quotedetails : Composition of many QuoteDetails on quotedetails.quote = $self;
-    insuredDob     : Date;
-    insuredAge     : Integer;    
-
+    
   }
 
   entity Products : managed {

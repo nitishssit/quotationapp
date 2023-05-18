@@ -1,8 +1,6 @@
 using QuotationService from './quotation-service';
 
 annotate QuotationService.Quotes with {
-	polhldrname     @title: 'Policyholder Name';
-	polhldraddress  @title: 'Policyholder Address';
 	status          @title: 'Status';
 	product         @title: 'Product';
 	startdate       @title: 'Start Date';
@@ -12,8 +10,18 @@ annotate QuotationService.Quotes with {
 	duration		@title: 'Cover Duration (years)';
 	annpremium		@title: 'Annual Premium';
 	frqpremium		@title: 'Payment Frequency Premium';
-	insuredDob     @title: 'Date of birth';
-    insuredAge     @title: 'Age';
+	phName          @title: 'Policyholder Name';
+	phAddress       @title: 'Policyholder Address';
+	phDOB      		@title: 'Date of birth';
+    phAge      		@title: 'Age';
+	phGender		@title : 'Gender';
+	phOccClass      @title: 'Occupational Class';
+	insName			@title : 'Insured Person Name';
+	insAddress		@title : 'Insured Person Address';
+	insAge			@title : 'Age';
+	insDOB			@title : 'Date of birth';
+	insGender		@title : 'Gender';
+	insOccClass		@title :  'Occupation Class';
 }
 annotate QuotationService.QuoteDetails with {
 	ID @(
@@ -73,7 +81,7 @@ annotate QuotationService.Quotes with @(
 			TypeNamePlural: 'Quotes',
 			Title          : {
                 $Type : 'UI.DataField',
-                Value : polhldrname
+                Value : phName
             },
 			Description : {
 				$Type: 'UI.DataField',
@@ -87,8 +95,8 @@ annotate QuotationService.Quotes with @(
 		}
 		],
 		LineItem: [
-			{Value: polhldrname},
-			{Value: polhldraddress},
+			{Value: phName},
+			{Value: phAddress},
 			{
 				Value: status,
 				Criticality: criticality
@@ -97,6 +105,8 @@ annotate QuotationService.Quotes with @(
 			{Value: startdate}
 		],
 		Facets: [
+			{$Type: 'UI.ReferenceFacet', Label: 'Policy Owner Details', Target: '@UI.FieldGroup#PolicyOwnerDetails'},
+			{$Type: 'UI.ReferenceFacet', Label: 'Insured Person Details', Target: '@UI.FieldGroup#InsuredPersonDetails'},
 			{$Type: 'UI.ReferenceFacet', Label: 'Quote Details', Target: '@UI.FieldGroup#QuoteDetails'},
 		/*	{$Type: 'UI.ReferenceFacet', Label: 'Product Details', Target: '@UI.FieldGroup#ProductDetails'},*/
 			{$Type: 'UI.ReferenceFacet', Label: 'Coverage Details', Target: 'quotedetails/@UI.LineItem'}
@@ -107,18 +117,36 @@ annotate QuotationService.Quotes with @(
 			//Label : 'Status',
 			Criticality : criticality
 		},
+		FieldGroup#PolicyOwnerDetails: {
+            Data: [
+                {Value: phName},
+                {Value: phDOB},
+				{Value: phGender},
+                {Value: phAge},
+                {Value: phAddress},
+				{Value: phOccClass}				
+            ]
+        },
+		FieldGroup#InsuredPersonDetails: {
+            Data: [
+                {Value: insName},
+                {Value: insDOB},
+				{Value: insGender},
+                {Value: insAge},
+                {Value: insAddress},
+				{Value: insOccClass}				
+            ]
+        },
 		FieldGroup#QuoteDetails: {
 			Data: [
-				{Value: polhldraddress},
 				{Value: startdate},
 				{Value: duration},
 				{Value: payfrq_ID},
 				{Value: paymethod},
 				{Value: suminsured},
 				{Value: annpremium},
-				{Value: frqpremium},
-				{Value : insuredDob},
-      			{Value : insuredAge}
+				{Value: frqpremium}
+				
 			]
 		},
 		FieldGroup#ProductDetails: {
@@ -130,7 +158,7 @@ annotate QuotationService.Quotes with @(
 		},
 		FieldGroup#PremiumDetails: {
 			Data: [
-				{Value: polhldraddress},
+				{Value: phAddress},
 				{Value: payfrq_ID},
 				{Value: paymethod},
 				{Value: suminsured},

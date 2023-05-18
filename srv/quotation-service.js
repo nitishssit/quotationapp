@@ -22,12 +22,12 @@ module.exports = cds.service.impl(async function() {
      * based on Policy Begin Date and Date of Birth.
     */
     this.before('CREATE','Quotes', req => {
-       const birthDate = req.data.insuredDob
+       const birthDate = req.data.phDOB
        const policyBeginDate  = req.data.startdate
        console.log("**********"+birthDate)
        console.log("**********"+policyBeginDate)
        const year_difference = new Date(policyBeginDate).getFullYear() - new Date(birthDate).getFullYear()
-       req.data.insuredAge = year_difference       
+       req.data.phAge = year_difference       
        console.log("**********...calculatedAge.........."+year_difference)
      })
 });
