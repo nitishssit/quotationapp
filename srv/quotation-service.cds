@@ -11,6 +11,9 @@ service QuotationService {
   entity QuoteDetails as projection on my.QuoteDetails;
   entity PremiumFrequency as projection on my.PremiumFrequency;
        annotate PremiumFrequency with @odata.draft.enabled;
-
-    
+  entity Commissions as projection on my.Commissions;
+  entity QuoteTypes as projection on my.QuoteTypes;
+  entity Status as projection on my.Status;
+  entity GenderType as projection on my.GenderType;
+  
 }

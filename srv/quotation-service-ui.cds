@@ -1,8 +1,10 @@
 using QuotationService from './quotation-service';
 
 annotate QuotationService.Quotes with {
-	status          @title: 'Status';
-	product         @title: 'Product';
+		status       @title: 'Status';
+			product         @title: 'Product';
+	commissionname @title: 'Commission Partner Name';
+    commission     @title: 'Commission ID';
 	startdate       @title: 'Start Date';
 	payfrq		    @title: 'Payment Frequency';
 	paymethod		@title: 'Payment Method';
@@ -10,18 +12,21 @@ annotate QuotationService.Quotes with {
 	duration		@title: 'Cover Duration (years)';
 	annpremium		@title: 'Annual Premium';
 	frqpremium		@title: 'Payment Frequency Premium';
-	phName          @title: 'Policyholder Name';
-	phAddress       @title: 'Policyholder Address';
-	phDOB      		@title: 'Date of birth';
+	phID			@title: 'Policy Owner ID';
+	phName          @title: 'Policy Owner Name';
+	phAddress       @title: 'Address';
+	phDOB      		@title: 'Date of Birth';
     phAge      		@title: 'Age';
 	phGender		@title : 'Gender';
 	phOccClass      @title: 'Occupational Class';
-	insName			@title : 'Insured Person Name';
-	insAddress		@title : 'Insured Person Address';
+	insID    		@title : 'Insured ID';
+	insName			@title : 'Insured Name';
+	insAddress		@title : 'Insured Address';
 	insAge			@title : 'Age';
-	insDOB			@title : 'Date of birth';
+	insDOB			@title : 'Date of Birth';
 	insGender		@title : 'Gender';
 	insOccClass		@title :  'Occupation Class';
+	quotetype      @title: 'Quote Type';
 }
 annotate QuotationService.QuoteDetails with {
 	ID @(
@@ -68,6 +73,37 @@ annotate QuotationService.Coverages with {
 	product       @title: 'Product';
 }
 
+annotate QuotationService.QuoteTypes with {
+    ID        @(
+        UI.Hidden,
+        Common: {Text: quoteName}
+    );
+    quoteCode @title: 'Quote Code';
+    quoteName @title: 'Quote Name';
+
+}
+
+
+
+annotate QuotationService.Commissions with {
+    ID             @(
+        UI.Hidden,
+        Common: {Text: commissionName}
+    );
+    commissionID   @title: 'Commission Code';
+    commissionName @title: 'Commission Name';
+
+}
+
+annotate QuotationService.QuoteTypes with {
+    ID        @(
+        UI.Hidden,
+        Common: {Text: quoteName}
+    );
+    quoteCode @title: 'Quote Code';
+    quoteName @title: 'Quote Name';
+
+}
 annotate QuotationService.PremiumFrequency with {
     
     Frequency @title : 'Payment Frequency';
@@ -77,16 +113,16 @@ annotate QuotationService.PremiumFrequency with {
 annotate QuotationService.Quotes with @(
 	UI: {
 		HeaderInfo: {
-			TypeName: 'Quote',
+		TypeName: 'Quote',
 			TypeNamePlural: 'Quotes',
 			Title          : {
                 $Type : 'UI.DataField',
-                Value : phName
+                Value : phName,
             },
-			Description : {
+			/*Description : {
 				$Type: 'UI.DataField',
 				Value: product_ID
-			}
+			}*/
 		},
 		HeaderFacets  : [
 			{
@@ -96,15 +132,18 @@ annotate QuotationService.Quotes with @(
 		],
 		LineItem: [
 			{Value: phName},
+			{Value: commission.commissionName},
 			{Value: phAddress},
 			{
-				Value: status,
+				Value: status_code,
 				Criticality: criticality
 			},
 			{Value: product_ID},
 			{Value: startdate}
 		],
 		Facets: [
+			{
+            $Type : 'UI.ReferenceFacet',Label : 'General Section',Target: '@UI.FieldGroup#GeneralSection'},
 			{$Type: 'UI.ReferenceFacet', Label: 'Policy Owner Details', Target: '@UI.FieldGroup#PolicyOwnerDetails'},
 			{$Type: 'UI.ReferenceFacet', Label: 'Insured Person Details', Target: '@UI.FieldGroup#InsuredPersonDetails'},
 			{$Type: 'UI.ReferenceFacet', Label: 'Quote Details', Target: '@UI.FieldGroup#QuoteDetails'},
@@ -113,12 +152,24 @@ annotate QuotationService.Quotes with @(
 		/*	{$Type: 'UI.ReferenceFacet', Label: 'Premium Details', Target: '@UI.FieldGroup#PremiumDetails', ![@UI.Hidden] :IsActiveEntity}*/
 		],
 		DataPoint#Status : {
-			Value : status,
-			//Label : 'Status',
+			Value : status_code,
 			Criticality : criticality
 		},
+		  FieldGroup #GeneralSection: {Data: [
+        // {Value: commissionname},
+        {Value: commission_ID},
+        {Value: startdate},
+        {Value: product_ID},
+        {Value: quotetype_ID},
+        // {Value: policyterm},
+        // {Value: premiumterm},
+        {Value: commission.commissionName}
+
+
+    ]},
 		FieldGroup#PolicyOwnerDetails: {
             Data: [
+				{Value: phID},
                 {Value: phName},
                 {Value: phDOB},
 				{Value: phGender},
@@ -129,6 +180,7 @@ annotate QuotationService.Quotes with @(
         },
 		FieldGroup#InsuredPersonDetails: {
             Data: [
+				{Value: insID},
                 {Value: insName},
                 {Value: insDOB},
 				{Value: insGender},
@@ -139,7 +191,6 @@ annotate QuotationService.Quotes with @(
         },
 		FieldGroup#QuoteDetails: {
 			Data: [
-				{Value: startdate},
 				{Value: duration},
 				{Value: payfrq_ID},
 				{Value: paymethod},
@@ -224,6 +275,9 @@ annotate QuotationService.Quotes with {
 			}
 		}
 	);
+	status @(
+		Common : { Text : status.Name, TextArrangement : #TextOnly, }
+	)
 }
 
 annotate QuotationService.QuoteDetails with {
@@ -275,3 +329,111 @@ annotate QuotationService.Quotes with {
     });
 }
 //Frequency Help drop down changes - END
+annotate QuotationService.Quotes with {
+    commission @(Common: {
+        //show name, not id for coverage in the context of quotedetails
+        Text           : commission.commissionName,
+        TextArrangement: #TextOnly,
+        ValueList      : {
+            Label         : 'Commissions',
+            CollectionPath: 'Commissions',
+            Parameters    : [
+                {
+                    $Type            : 'Common.ValueListParameterInOut',
+                    LocalDataProperty: commission_ID,
+                    ValueListProperty: 'ID'
+                },
+                {
+                    $Type            : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty: 'commissionID'
+                },
+                {
+                    $Type            : 'Common.ValueListParameterOut',
+                    LocalDataProperty: commissionname,
+                    ValueListProperty: 'commissionName'
+                }
+            ]
+        }
+    });
+}
+/*annotate QuotationService.Quotes with {
+    insGender @(Common: {
+        //show name, not id for coverage in the context of quotedetails
+        Text           : insGender.genderName,
+        TextArrangement: #TextOnly,
+        ValueList      : {
+            Label         : 'GenderType',
+            CollectionPath: 'GenderType',
+            Parameters    : [
+                {
+                    $Type            : 'Common.ValueListParameterInOut',
+                    LocalDataProperty: insGender_ID,
+                    ValueListProperty: 'ID'
+                },
+                {
+                    $Type            : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty: 'genderCode'
+                },
+                {
+                    $Type            : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty: 'genderName'
+                }
+            ]
+        }
+    });
+}*/
+/*
+annotate QuotationService.Quotes with {
+    phGender @(Common: {
+        //show name, not id for coverage in the context of quotedetails
+        Text           : phGender.genderName,
+        TextArrangement: #TextOnly,
+        ValueList      : {
+            Label         : 'GenderType',
+            CollectionPath: 'GenderType',
+            Parameters    : [
+                {
+                    $Type            : 'Common.ValueListParameterInOut',
+                    LocalDataProperty: phGender_ID,
+                    ValueListProperty: 'ID'
+                },
+                {
+                    $Type            : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty: 'genderCode'
+                },
+                {
+                    $Type            : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty: 'genderName'
+                }
+            ]
+        }
+    });
+}
+*/
+
+annotate QuotationService.Quotes with {
+    quotetype @(Common: {
+        //show name, not id for coverage in the context of quotedetails
+        Text           : quotetype.quoteName,
+        TextArrangement: #TextOnly,
+        ValueList      : {
+            Label         : 'QuoteTypes',
+            CollectionPath: 'QuoteTypes',
+            Parameters    : [
+                {
+                    $Type            : 'Common.ValueListParameterInOut',
+                    LocalDataProperty: quotetype_ID,
+                    ValueListProperty: 'ID'
+                },
+                {
+                    $Type            : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty: 'quoteCode'
+                },
+                {
+                    $Type            : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty: 'quoteName'
+                }
+            ]
+        }
+    });
+}
