@@ -117,7 +117,7 @@ annotate QuotationService.Quotes with @(
 			TypeNamePlural: 'Quotes',
 			Title          : {
                 $Type : 'UI.DataField',
-                Value : phName,
+                Value : quotetype_ID,
             },
 			/*Description : {
 				$Type: 'UI.DataField',
@@ -160,7 +160,6 @@ annotate QuotationService.Quotes with @(
         {Value: commission_ID},
         {Value: startdate},
         {Value: product_ID},
-        {Value: quotetype_ID},
         // {Value: policyterm},
         // {Value: premiumterm},
         {Value: commission.commissionName}
