@@ -83,6 +83,16 @@ annotate QuotationService.QuoteTypes with {
 
 }
 
+annotate QuotationService.GenderType with {
+    ID             @(
+        UI.Hidden,
+        Common: {Text: genderName}
+    );
+    genderCode   @title: 'Gender Code';
+    genderName @title: 'Gender Name';
+
+}
+
 
 
 annotate QuotationService.Commissions with {
@@ -171,7 +181,7 @@ annotate QuotationService.Quotes with @(
 				{Value: phID},
                 {Value: phName},
                 {Value: phDOB},
-				{Value: phGender},
+				{Value: phGender_ID},
                 {Value: phAge},
                 {Value: phAddress},
 				{Value: phOccClass}				
@@ -182,7 +192,7 @@ annotate QuotationService.Quotes with @(
 				{Value: insID},
                 {Value: insName},
                 {Value: insDOB},
-				{Value: insGender},
+				{Value: insGender_ID},
                 {Value: insAge},
                 {Value: insAddress},
 				{Value: insOccClass}				
@@ -355,7 +365,7 @@ annotate QuotationService.Quotes with {
         }
     });
 }
-/*annotate QuotationService.Quotes with {
+annotate QuotationService.Quotes with {
     insGender @(Common: {
         //show name, not id for coverage in the context of quotedetails
         Text           : insGender.genderName,
@@ -380,8 +390,7 @@ annotate QuotationService.Quotes with {
             ]
         }
     });
-}*/
-/*
+}
 annotate QuotationService.Quotes with {
     phGender @(Common: {
         //show name, not id for coverage in the context of quotedetails
@@ -408,8 +417,6 @@ annotate QuotationService.Quotes with {
         }
     });
 }
-*/
-
 annotate QuotationService.Quotes with {
     quotetype @(Common: {
         //show name, not id for coverage in the context of quotedetails

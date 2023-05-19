@@ -14,6 +14,5 @@ service QuotationService {
   entity Commissions as projection on my.Commissions;
   entity QuoteTypes as projection on my.QuoteTypes;
   entity Status as projection on my.Status;
-  entity GenderType as projection on my.GenderType;
-  
+  entity GenderType as projection on my.GenderType; 
 }

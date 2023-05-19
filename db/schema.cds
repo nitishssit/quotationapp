@@ -19,14 +19,14 @@ using { managed } from '@sap/cds/common';
     phDOB     : Date;
     phAge     : Integer; @readonly
     phOccClass: String(40);
-    phGender  : String(10);
+    phGender  : Association to GenderType;
     insID     : String(40);
-    insName       : String(40);
-    insAddress       : String (60);
+    insName    : String(40);
+    insAddress : String (60);
     insDOB     : Date;
     insAge     : Integer; @readonly
     insOccClass: String(40);
-    insGender  : String(10);
+    insGender  : Association to GenderType;
     quotedetails : Composition of many QuoteDetails on quotedetails.quote = $self;
     quotetype : Association to QuoteTypes;
     commission : Association to Commissions;
@@ -96,4 +96,4 @@ entity Commissions : managed {
     genderCode   : String (10);
     genderName   : String (40);
     quotes       : Association to Quotes ;
-  }
+  }  
