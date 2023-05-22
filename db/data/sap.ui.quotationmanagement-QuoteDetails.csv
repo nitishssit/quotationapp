@@ -1,4 +1,4 @@
-ID;quote_ID;createdAt;createdBy;coveragecode;coveragename;startdate;enddate;insuredobject;suminsured;annpremium;frqpremium;coverages_ID;product_ID;
+ID;quote_ID;createdAt;createdBy;coveragecode;coveragename;startdate;enddate;insuredobject;suminsured;annpremium;frqpremium;coverages_ID;product_code;
 20466922-7d57-4e76-b14c-e53fd97bcd11;20466922-7d57-4e76-b14c-e53fd97dcb11;2023-03-20;max.mustermann@muster.com;BUB01;Endowment Death;2023-03-20;2038-03-20;Parandhaman Devendran;100000;6000;500;20466921-7d57-4e76-b14c-e53fd97cov11;20466921-7d57-4e76-b14c-e53fd97dcb11;
 20466922-7d57-4e76-b14c-e53fd97bcd12;20466922-7d57-4e76-b14c-e53fd97dcb11;2023-03-20;max.mustermann@muster.com;BUB02;Endowment Disability;2023-03-20;2038-03-20;Laveen Lalwani;200000;12000;1000;20466921-7d57-4e76-b14c-e53fd97cov12;20466921-7d57-4e76-b14c-e53fd97dcb11;
 20466922-7d57-4e76-b14c-e53fd97bcd13;20466922-7d57-4e76-b14c-e53fd97dcb11;2023-03-20;max.mustermann@muster.com;BUB03;Endowment Maturity;2023-03-20;2038-03-20;Laveen Lalwani;300000;18000;1500;20466921-7d57-4e76-b14c-e53fd97cov13;20466921-7d57-4e76-b14c-e53fd97dcb11;

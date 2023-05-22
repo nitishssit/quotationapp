@@ -1,0 +1,9 @@
+code;TariffVers;Short;Large;
+AKA01;1;ALICE CI Curr.;ALICE Capital Insurance Current Premiums;
+AKA02;1;ALICE CI SP;ALICE Capital Insurance Single Premium;
+AKA03;1;ALICE Fix. Term;ALICE Fixed Term Insurance Current Premiums;
+ARI01;1;ALICE TI Curr.;ALICE Term Insurance Current Premiums;
+ARI02;1;ALICE TI SP;ALICE Term Insurance Single Premium;
+AUL01;1;ALICE UL LI Cur;ALICE Standard Unit-Linked Life Ins. Curr. Premium;
+AUL02;1;ALICE UL LI SP;ALICE Standard Unit-Linked Life Ins. Sing. Premium;
+AUL03;1;ALICE UL MR/FU;ALICE Standard Fund: Min RIS / Fund;

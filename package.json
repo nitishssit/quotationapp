@@ -6,10 +6,12 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
+    "@sap-cloud-sdk/http-client": "^3.1.1",
+    "@sap-cloud-sdk/util": "^3.1.1",
     "@sap/cds": "^6",
     "@sap/cds-common-content": "^1.1.0",
     "express": "^4"
-  }, 
+  },
   "devDependencies": {
     "@sap/ux-specification": "latest",
     "sqlite3": "^5.0.4"
@@ -27,6 +29,13 @@
         "kind": "sqlite",
         "credentials": {
           "database": "db.sqlite"
+        }
+      },
+      "ProductsMetadata": {
+        "kind": "odata-v2",
+        "model": "srv/external/ProductsMetadata",
+        "credentials": {
+          "destination": "PE1CLNT010"
         }
       }
     }

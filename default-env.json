@@ -1,0 +1,11 @@
+{
+    "destinations": [
+        {
+            "name": "PE1CLNT010",
+            "url": "https://vhostpe1.awscloud.msg.de:8443/sap/opu/odata/sap/ZMG_PRODUCTS",
+            "username": "MAJIS",
+            "password": "Majis@1990",
+            "URL.headers.sap-client": "010"
+        }
+    ]
+}

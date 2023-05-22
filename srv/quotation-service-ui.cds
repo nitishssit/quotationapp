@@ -1,8 +1,8 @@
 using QuotationService from './quotation-service';
 
 annotate QuotationService.Quotes with {
-		status       @title: 'Status';
-			product         @title: 'Product';
+	status       @title: 'Status';
+	product         @title: 'Product';
 	commissionname @title: 'Commission Partner Name';
     commission     @title: 'Commission ID';
 	startdate       @title: 'Start Date';
@@ -47,17 +47,17 @@ annotate QuotationService.QuoteDetails with {
 	product  	  @title: 'Product';
 }
 
-annotate QuotationService.Products with {
-	ID @(
+annotate ProductsMetadata.Products with {
+	/*code @(
 		UI.Hidden,
 		Common: {
-		Text: productname
+		Text: code
 		}
-	);
-	productcode  @title: 'Product Code';
-	productname  @title: 'Product Name';
-	validity     @title: 'Validity';
-	quotes       @title: 'Quotes';
+	);*/
+	code  @title: 'Product Code';
+	Short  @title: 'Product Short';
+	Large    @title: 'Product Large';
+	
 }
 
 annotate QuotationService.Coverages with {
@@ -74,13 +74,14 @@ annotate QuotationService.Coverages with {
 }
 
 annotate QuotationService.QuoteTypes with {
-    ID        @(
+    ID  @(
         UI.Hidden,
-        Common: {Text: quoteName}
+        Common: {
+		Text: quoteName
+		}
     );
     quoteCode @title: 'Quote Code';
     quoteName @title: 'Quote Name';
-
 }
 
 annotate QuotationService.GenderType with {
@@ -105,15 +106,8 @@ annotate QuotationService.Commissions with {
 
 }
 
-annotate QuotationService.QuoteTypes with {
-    ID        @(
-        UI.Hidden,
-        Common: {Text: quoteName}
-    );
-    quoteCode @title: 'Quote Code';
-    quoteName @title: 'Quote Name';
 
-}
+
 annotate QuotationService.PremiumFrequency with {
     
     Frequency @title : 'Payment Frequency';
@@ -148,7 +142,7 @@ annotate QuotationService.Quotes with @(
 				Value: status_code,
 				Criticality: criticality
 			},
-			{Value: product_ID},
+			{Value: product_code},
 			{Value: startdate}
 		],
 		Facets: [
@@ -169,7 +163,7 @@ annotate QuotationService.Quotes with @(
         // {Value: commissionname},
         {Value: commission_ID},
         {Value: startdate},
-        {Value: product_ID},
+        {Value: product_code},
         // {Value: policyterm},
         // {Value: premiumterm},
         {Value: commission.commissionName}
@@ -265,20 +259,21 @@ annotate QuotationService.Quotes with {
 	product @(
 		Common: {
 			//show name, not id for product in the context of quotes
-			Text: product.productname  , TextArrangement: #TextOnly,
+			ValueListWithFixedValues,
+			//Text: product.Large, TextArrangement: #TextOnly,
 			ValueList: {
 				Label: 'Products',
 				CollectionPath: 'Products',
 				Parameters: [
 					{ $Type: 'Common.ValueListParameterInOut',
-						LocalDataProperty: product_ID,
-						ValueListProperty: 'ID'
+						LocalDataProperty: product_code,
+						ValueListProperty: 'code'
 					},
 					{ $Type: 'Common.ValueListParameterDisplayOnly',
-						ValueListProperty: 'productcode'
+						ValueListProperty: 'Short'
 					},
 					{ $Type: 'Common.ValueListParameterDisplayOnly',
-						ValueListProperty: 'productname'
+						ValueListProperty: 'Large'
 					}
 				]
 			}

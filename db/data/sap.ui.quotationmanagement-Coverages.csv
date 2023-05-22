@@ -1,4 +1,4 @@
-ID;createdAt;createdBy;coveragecode;coveragename;validity;product_ID
+ID;createdAt;createdBy;coveragecode;coveragename;validity;product_code
 20466921-7d57-4e76-b14c-e53fd97cov11;2021-04-27;max.mustermann@muster.com;BUB01;Endowment Death;Active;20466921-7d57-4e76-b14c-e53fd97dcb11
 20466921-7d57-4e76-b14c-e53fd97cov12;2021-04-27;max.mustermann@muster.com;BUB02;Endowment Disability;Active;20466921-7d57-4e76-b14c-e53fd97dcb11
 20466921-7d57-4e76-b14c-e53fd97cov13;2021-04-27;max.mustermann@muster.com;BUB03;Endowment Maturity;Active;20466921-7d57-4e76-b14c-e53fd97dcb11

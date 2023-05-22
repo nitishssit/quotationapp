@@ -39,11 +39,30 @@ module.exports = cds.service.impl(async function() {
        req.data.phAge = year_difference       
        console.log("**********...calculatedAge.........."+year_difference)
      })
+     this.before('UPDATE','Quotes', req => {
+        const birthDate = req.data.phDOB
+        const policyBeginDate  = req.data.startdate
+        console.log("**********"+birthDate)
+        console.log("**********"+policyBeginDate)
+        const year_difference = new Date(policyBeginDate).getFullYear() - new Date(birthDate).getFullYear()
+        req.data.phAge = year_difference       
+        console.log("**********...calculatedAge.........."+year_difference)
+      })
+    
      /*
      * Implementation of this service to trigger while creating quotation to generate the age value 
      * of Insured Person based on Policy Begin Date and Date of Birth.
     */
     this.before('CREATE','Quotes', req => {
+        const birthDate = req.data.insDOB
+        const policyBeginDate  = req.data.startdate
+        console.log("**********"+birthDate)
+        console.log("**********"+policyBeginDate)
+        const year_difference = new Date(policyBeginDate).getFullYear() - new Date(birthDate).getFullYear()
+        req.data.insAge = year_difference       
+        console.log("**********...calculatedAge.........."+year_difference)
+      })
+      this.before('UPDATE','Quotes', req => {
         const birthDate = req.data.insDOB
         const policyBeginDate  = req.data.startdate
         console.log("**********"+birthDate)
@@ -68,8 +87,12 @@ module.exports = cds.service.impl(async function() {
  
          
          //return next();
-     });
+     })
       this.before('CREATE','Quotes',async req=>{
          req.data.status_code=2;
-     }) 
+     });
+	const prod = await cds.connect.to('ProductsMetadata');
+        this.on('READ', 'Products', async () => {                
+        return await prod.run(SELECT.from("Products").where({TariffVers: "01"}));       
+    })   
 });
